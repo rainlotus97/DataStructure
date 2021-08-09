@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>链表</title>
+</head>
+
+<body>
+    <script>
+        // 构造函数
+        // 封装列表
+        function LinkedList() {
+            // 内部的类：节点类
+            function Node(data, next) {
+                this.data = data;
+                this.next = null;
+            }
+            // 属性
+            this.head = null;
+            this.length = 0
+
+            // 1.追加方法
+            LinkedList.prototype.append = function (data) {
+                var newNode = new Node(data)
+
+                if (this.length === 0) { // 是第一个节点
+                    this.head = newNode
+                } else { //  不是第一节点
+                    var current = this.head;
+                    while (current.next) {
+                        current = current.next
+                    }
+
+                    // 最后节点的next指向新的节点
+                    current.next = newNode
+
+                }
+
+                this.length += 1
+            }
+
+            // 2.toString方法
+            LinkedList.prototype.toString = function () {
+                //  定向变量
+                var current = this.head;
+                var listString = ''
+                // 循环获取一个个的节点
+
+                while (current) {
+                    listString += current.data + ' ';
+                    current = current.next
+                }
+
+                return listString
+            }
+
+            // insert方法
+            LinkedList.prototype.insert = function (position, data) {
+                // 对position越界判断
+                if (position < 0 || position > this.length) return false
+
+                // 根据data创建newNode
+                var newNode = new Node(data)
+
+                // 判断插入的位置是否是第一个
+                if (position === 0) {
+                    newNode.next = this.head
+                    this.head = newNode
+                } else {
+                    var index = 0
+                    var current = this.head
+                    var previous = null
+                    while (index++ < position) {
+                        previous = current
+                        current = current.next
+                    }
+                    newNode.next = current
+                    previous.next = newNode
+                }
+
+                // length + 1
+                this.length += 1
+                return true
+            }
+
+            // get方法
+            LinkedList.prototype.get = function (position) {
+                // 越界判断
+                if (position < 0 || position > this.length) return null
+
+                // 获取对应对data
+                var current = this.head
+                var index = 0
+                while (index++ < position) {
+                    current = current.next
+                }
+                return current.data
+            }
+
+        }
+
+        var list = new LinkedList()
+
+        list.append('abc')
+        list.append('bbb')
+        list.append('ccc')
+        list.append('xsd')
+
+        list.insert(0, 'xxx')
+        list.insert(4, 'fdd')
+
+        console.log(list.toString());
+    </script>
+</body>
+
+</html>
